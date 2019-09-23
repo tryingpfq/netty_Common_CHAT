@@ -1,6 +1,7 @@
 package com.tryingpfq.chat;
 
 import com.tryingpfq.chat.handler.server.HttpHandler;
+import com.tryingpfq.chat.handler.server.WebSocktHandler;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -8,6 +9,7 @@ import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.codec.http.HttpObjectAggregator;
 import io.netty.handler.codec.http.HttpServerCodec;
+import io.netty.handler.codec.http.websocketx.WebSocketServerProtocolHandler;
 import io.netty.handler.stream.ChunkedWriteHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -56,8 +58,8 @@ public class ChatServerStart {
                 pipeline.addLast(new HttpHandler());
 
                 /** 解析WebSocket请求 */
-                //pipeline.addLast(new WebSocketServerProtocolHandler("/wb"));
-                //pipeline.addLast(new WebSocktHandler());
+                pipeline.addLast(new WebSocketServerProtocolHandler("/ws"));
+                pipeline.addLast(new WebSocktHandler());
             }
         };
     }
